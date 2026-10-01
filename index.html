@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuis Petualangan Python Fundamental</title>
+  <title>Kuis Python Lanjutan: Logika & Data</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,11 +19,11 @@
           },
           colors: {
             brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              500: '#0284c7',
-              600: '#0369a1',
-              700: '#075985',
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
             }
           }
         }
@@ -40,7 +40,7 @@
       user-select: none;
     }
 
-    /* Efek animasi transisi halus */
+    /* Efek animasi fade-in kartu */
     .fade-enter {
       animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
@@ -50,7 +50,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Custom scrollbar untuk navigator */
+    /* Kustomisasi scrollbar mini */
     ::-webkit-scrollbar {
       height: 6px;
       width: 6px;
@@ -69,19 +69,18 @@
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
     <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-2.5">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-100">
-          <!-- Python Friendly Icon -->
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-100">
+          <!-- Python Code Icon -->
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
             <path d="M11.9 1a6.9 6.9 0 0 0-6.9 6.9v2.1h6.9v.7H4.3A4.3 4.3 0 0 0 0 15a4.3 4.3 0 0 0 4.3 4.3h2.6v-3.7a4.3 4.3 0 0 1 4.3-4.3h6.9V9.1A8.1 8.1 0 0 0 11.9 1zm-2 2.3a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2zM19.7 4.7h-2.6v3.7a4.3 4.3 0 0 1-4.3 4.3H5.9v2.1a8.1 8.1 0 0 0 6.2 8.2 6.9 6.9 0 0 0 6.9-6.9v-2.1h-6.9v-.7h7.6a4.3 4.3 0 0 0 4.3-4.3 4.3 4.3 0 0 0-4.3-4.3zm-5.6 14.7a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/>
           </svg>
         </div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">Ujian Python Kids</h1>
-          <p class="text-xs text-slate-500 font-medium">Asah & Ingat Kembali Fundamental</p>
+          <h1 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">Ujian Python: Level 2</h1>
+          <p class="text-xs text-slate-500 font-medium">Nested Loop, If, Dict & File Handling</p>
         </div>
       </div>
 
-      <!-- Badge Siswa & Proteksi Info -->
       <div class="flex items-center space-x-3">
         <div id="timerBadge" class="hidden items-center space-x-1.5 px-3 py-1 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 font-mono text-xs sm:text-sm font-bold shadow-sm transition-colors">
           <span>⏱️</span>
@@ -119,13 +118,13 @@
       </div>
       <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Ujian Sudah Selesai</h2>
       <p class="text-slate-600 text-sm sm:text-base mb-4 leading-relaxed">
-        Kamu sudah menyelesaikan ulangan ini sebelumnya. Sesuai ketentuan, <strong>ujian hanya bisa dikerjakan 1 kali dan tidak dapat diulang</strong>.
+        Kamu sudah menyelesaikan ujian ini sebelumnya. Sesuai aturan, <strong>ujian hanya bisa dikerjakan 1 kali dan tidak dapat diulang</strong>.
       </p>
       <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl mb-6">
         <p class="text-xs text-slate-400 font-semibold uppercase">Nama Siswa</p>
         <p id="lockedStudentName" class="text-base font-bold text-slate-700 mt-0.5">-</p>
-        <p class="text-xs text-slate-400 font-semibold uppercase mt-2">Nilai Terakhir</p>
-        <p id="lockedScoreText" class="text-2xl font-black text-sky-600 mt-0.5">0 / 100</p>
+        <p class="text-xs text-slate-400 font-semibold uppercase mt-2">Nilai Akhir</p>
+        <p id="lockedScoreText" class="text-2xl font-black text-emerald-600 mt-0.5">0 / 100</p>
       </div>
       <button 
         type="button" 
@@ -137,47 +136,45 @@
 
     <!-- 1. SCREEN: WELCOME / START SCREEN -->
     <section id="welcomeScreen" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-10 text-center max-w-xl mx-auto w-full fade-enter">
-      <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
-        🐍
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+        🚀
       </div>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2">Siap Mulai Ulangan?</h2>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2">Ujian Logika & Data Python</h2>
       <p class="text-slate-600 text-sm sm:text-base mb-4 leading-relaxed">
-        Uji kemampuan Python kamu dengan <strong>15 soal seru</strong> (60% Teori Konsep & 40% Praktik Kode).
+        Uji kemampuan lanjutanmu dengan <strong>16 soal menantang</strong> (<span class="font-bold text-emerald-600">75% Praktik Kode</span> & <span class="font-bold text-sky-600">25% Teori Konsep</span>).
       </p>
 
       <div class="bg-amber-50 border border-amber-200/80 p-3.5 rounded-xl mb-5 text-left flex items-start space-x-3 text-xs sm:text-sm text-amber-900">
         <span class="text-lg">⏱️</span>
         <div class="space-y-1">
-          <p class="font-bold text-amber-950">Aturan Penting Pengerjaan:</p>
+          <p class="font-bold text-amber-950">Aturan Pengerjaan:</p>
           <ul class="list-disc list-inside space-y-0.5 text-xs text-amber-800 font-medium">
-            <li>Waktu pengerjaan adalah <strong>20 menit</strong> (hitung mundur).</li>
-            <li>Ujian akan <strong>otomatis terkirim</strong> jika waktu habis.</li>
-            <li><strong>Ujian tidak dapat diulang</strong> setelah dikumpulkan.</li>
+            <li>Durasi pengerjaan adalah <strong>20 menit</strong> hitung mundur.</li>
+            <li>Soal berupa tebak output kode dan pemahaman konsep.</li>
+            <li>Kuis otomatis dikumpulkan saat waktu habis & <strong>tidak dapat diulang</strong>.</li>
           </ul>
         </div>
       </div>
 
-      <!-- Informasi Topik -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6 text-left">
         <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl">
-          <p class="text-xs text-slate-400 font-medium">Topik 1-2</p>
-          <p class="text-xs font-bold text-slate-700 mt-0.5">List & Dict</p>
+          <p class="text-xs text-slate-400 font-medium">Materi 1</p>
+          <p class="text-xs font-bold text-slate-700 mt-0.5">Nested If</p>
         </div>
         <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl">
-          <p class="text-xs text-slate-400 font-medium">Topik 3-4</p>
-          <p class="text-xs font-bold text-slate-700 mt-0.5">If & Loop</p>
+          <p class="text-xs text-slate-400 font-medium">Materi 2</p>
+          <p class="text-xs font-bold text-slate-700 mt-0.5">Nested Loop</p>
         </div>
         <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl">
-          <p class="text-xs text-slate-400 font-medium">Topik 5-6</p>
-          <p class="text-xs font-bold text-slate-700 mt-0.5">Function & Scope</p>
+          <p class="text-xs text-slate-400 font-medium">Materi 3</p>
+          <p class="text-xs font-bold text-slate-700 mt-0.5">List of Dict</p>
         </div>
         <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl">
-          <p class="text-xs text-slate-400 font-medium">Topik 7</p>
-          <p class="text-xs font-bold text-slate-700 mt-0.5">String Method</p>
+          <p class="text-xs text-slate-400 font-medium">Materi 4</p>
+          <p class="text-xs font-bold text-slate-700 mt-0.5">File Handling</p>
         </div>
       </div>
 
-      <!-- Form Input Nama -->
       <form id="startForm" onsubmit="startQuiz(event)" class="space-y-4">
         <div class="text-left">
           <label for="studentName" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama Kamu</label>
@@ -185,14 +182,14 @@
             type="text" 
             id="studentName" 
             required 
-            placeholder="Ketik namamu di sini..." 
-            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all text-sm font-medium text-slate-800"
-            maxlength="25"
+            placeholder="Tuliskan nama lengkapmu di sini..." 
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all text-sm font-medium text-slate-800"
+            maxlength="30"
           >
         </div>
         <button 
           type="submit" 
-          class="w-full bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl transition duration-150 transform active:scale-[0.98] shadow-md shadow-sky-200 text-sm sm:text-base flex items-center justify-center space-x-2">
+          class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3.5 px-6 rounded-xl transition duration-150 transform active:scale-[0.98] shadow-md shadow-emerald-200 text-sm sm:text-base flex items-center justify-center space-x-2">
           <span>Mulai Ujian Sekarang</span>
           <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
@@ -204,17 +201,18 @@
       <!-- Progress Bar & Indikator -->
       <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col space-y-3">
         <div class="flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-600">
-          <span id="questionCounter">Soal 1 dari 15</span>
-          <span id="categoryBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200">
-            Teori
+          <span id="questionCounter">Soal 1 dari 16</span>
+          <span id="categoryBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            💻 Soal Praktik (Kode)
           </span>
         </div>
+        
         <!-- Bar Garis -->
         <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-          <div id="quizProgressBar" class="bg-gradient-to-r from-sky-500 to-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 6.66%;"></div>
+          <div id="quizProgressBar" class="bg-gradient-to-r from-emerald-500 to-teal-600 h-2.5 rounded-full transition-all duration-300" style="width: 6.25%;"></div>
         </div>
 
-        <!-- Quick Question Number Selector (1-15) -->
+        <!-- Quick Question Number Selector (1-16) -->
         <div class="pt-2 border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto py-1" id="questionNavPills">
           <!-- Populated by JS -->
         </div>
@@ -222,39 +220,36 @@
 
       <!-- Card Pertanyaan -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 relative overflow-hidden">
-        <!-- Watermark kecil pencegah screengrab -->
         <div class="absolute top-2 right-3 text-[10px] text-slate-300 font-mono tracking-widest uppercase select-none pointer-events-none">
-          Python-Exam-Valid
+          Python-Lvl2-Exam
         </div>
 
-        <!-- Teks Soal -->
         <div class="mb-4">
-          <span id="topicTag" class="text-xs font-bold text-indigo-600 uppercase tracking-wider block mb-1">List</span>
+          <span id="topicTag" class="text-xs font-bold text-teal-600 uppercase tracking-wider block mb-1">Topik: Nested If</span>
           <h3 id="questionText" class="text-base sm:text-lg font-bold text-slate-800 leading-snug">
-            <!-- Soal di sini -->
+            <!-- Pertanyaan diisi JS -->
           </h3>
         </div>
 
-        <!-- Wadah Kode Python (Jika Ada) -->
+        <!-- Wadah Kode Python Protected Mode -->
         <div id="codeSnippetBox" class="hidden mb-5 rounded-xl bg-slate-900 border border-slate-800 p-4 text-emerald-400 font-mono text-xs sm:text-sm overflow-x-auto relative">
           <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-[11px] text-slate-400 font-sans">
             <span class="flex items-center space-x-1.5">
               <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
               <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-              <span class="ml-2">script.py</span>
+              <span class="ml-2 font-mono text-slate-300">latihan.py</span>
             </span>
-            <span class="text-slate-500">Protected Mode</span>
+            <span class="text-slate-500">Read-Only</span>
           </div>
           <pre id="codeSnippet" class="whitespace-pre overflow-x-auto leading-relaxed"></pre>
         </div>
 
         <!-- Pilihan Jawaban (A, B, C, D) -->
         <div id="optionsContainer" class="space-y-2.5">
-          <!-- Pilihan dimasukkan via JavaScript -->
+          <!-- Opsi diisi via JS -->
         </div>
 
-        <!-- Tombol Navigasi Bawah -->
         <div class="flex items-center justify-between mt-6 pt-5 border-t border-slate-100">
           <button 
             type="button"
@@ -269,7 +264,7 @@
             type="button"
             id="nextBtn" 
             onclick="navigateQuestion(1)" 
-            class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center space-x-1.5">
+            class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center space-x-1.5">
             <span>Selanjutnya</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </button>
@@ -278,7 +273,7 @@
             type="button"
             id="finishBtn" 
             onclick="confirmFinishQuiz()" 
-            class="hidden px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-100 transition flex items-center space-x-1.5">
+            class="hidden px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-teal-100 transition flex items-center space-x-1.5">
             <span>Kirim Jawaban 🚀</span>
           </button>
         </div>
@@ -287,18 +282,16 @@
 
     <!-- 3. SCREEN: HASIL & PEMBAHASAN -->
     <section id="resultScreen" class="hidden fade-enter space-y-6 max-w-2xl mx-auto w-full pb-10">
-      <!-- Kartu Skor -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 text-center relative overflow-hidden">
         <div id="scoreBadgeEmoji" class="text-5xl mb-2">🎉</div>
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Hasil Ulangan</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Hasil Ujian Kamu</h2>
         <p id="studentNameResult" class="text-sm text-slate-500 font-medium mb-4">Siswa: -</p>
 
-        <!-- Lingkaran Nilai -->
         <div class="inline-flex items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-100 mb-4">
           <div class="text-center">
-            <span id="finalScore" class="text-4xl sm:text-5xl font-black text-sky-600">0</span>
+            <span id="finalScore" class="text-4xl sm:text-5xl font-black text-emerald-600">0</span>
             <span class="text-xl font-bold text-slate-400"> / 100</span>
-            <p id="correctCountText" class="text-xs text-slate-500 font-semibold mt-1">Benar 0 dari 15 soal</p>
+            <p id="correctCountText" class="text-xs text-slate-500 font-semibold mt-1">Benar 0 dari 16 soal</p>
           </div>
         </div>
 
@@ -314,20 +307,19 @@
           <button 
             type="button"
             onclick="scrollToReview()" 
-            class="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-sm transition">
-            Lihat Pembahasan Detail Soal 📖
+            class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition">
+            Lihat Pembahasan Soal 📖
           </button>
         </div>
       </div>
 
-      <!-- Daftar Pembahasan Soal -->
       <div id="reviewContainer" class="space-y-4">
         <h3 class="text-base sm:text-lg font-bold text-slate-800 flex items-center space-x-2">
           <span>Pembahasan & Kunci Jawaban</span>
-          <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">15 Soal</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">16 Soal</span>
         </h3>
         <div id="reviewList" class="space-y-3">
-          <!-- Item pembahasan akan di-render via JS -->
+          <!-- Review Cards via JS -->
         </div>
       </div>
     </section>
@@ -363,253 +355,263 @@
 
   <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
     <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Modul Belajar Python untuk Pemula • 15 Soal (60% Teori, 40% Praktik)</p>
+      <p>Modul Belajar Python Lanjutan • 16 Soal (75% Praktik, 25% Teori)</p>
       <p class="font-mono text-[11px] text-slate-400">Protected Learning Sandbox</p>
     </div>
   </footer>
 
-  <!-- Canvas Confetti untuk efek kemenangan -->
   <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
   <script>
     /*
-      Bank 15 Soal Python Fundamental:
-      - 9 Soal Teori (60%)
-      - 6 Soal Praktik Kode (40%)
-      Mencakup: List, Dictionary, If, Loop, Function, Global/Local Scope, String Manipulation.
+      Bank 16 Soal Python Lanjutan:
+      - 4 Soal Teori (25%): Soal 1, 5, 9, 13
+      - 12 Soal Praktik Kode (75%): Soal 2, 3, 4, 6, 7, 8, 10, 11, 12, 14, 15, 16
+      Mencakup: Nested If, Nested Loop, List of Dictionary, dan File Handling.
     */
     const questions = [
-      // 1. Teori - List
+      // === MATERI 1: NESTED IF ===
       {
         id: 1,
         type: "teori",
-        topic: "List",
-        question: "Di dalam Python, nomor urut (indeks) untuk mengambil item pertama pada sebuah List selalu dimulai dari angka berapa?",
+        topic: "Nested If",
+        question: "Apa arti dari konsep 'Nested If' (Percabangan Bersarang) dalam bahasa pemrograman Python?",
         options: [
-          "1",
-          "0",
-          "-1",
-          "Sesuai jumlah item"
+          "Menjalankan dua file Python secara bersamaan di terminal",
+          "Perintah `if` yang diletakkan di dalam blok perintah `if` lainnya",
+          "Membuat percabangan `if` tanpa memerlukan blok `else`",
+          "Perintah untuk mengulang program sampai komputer dimatikan"
         ],
         answer: 1,
-        explanation: "Indeks dalam Python menganut sistem 'zero-based indexing', jadi item paling pertama selalu memiliki indeks 0."
+        explanation: "Nested If adalah struktur percabangan di mana sebuah blok 'if' berada di dalam 'if' lain. Kondisi kedua hanya akan diuji jika kondisi pertama bernilai True."
       },
-      // 2. Praktik - List
       {
         id: 2,
         type: "praktik",
-        topic: "List",
-        question: "Perhatikan kode list hewan berikut. Nilai apa yang akan dicetak di layar?",
-        code: "hewan = [\"kucing\", \"kelinci\", \"panda\"]\nprint(hewan[1])",
+        topic: "Nested If",
+        question: "Perhatikan aturan hadiah game berikut. Hadiah apa yang akan dicetak oleh program?",
+        code: "level = 5\nkoin = 120\n\nif level >= 5:\n    if koin >= 100:\n        print(\"Dapat Pedang Emas!\")\n    else:\n        print(\"Dapat Pedang Kayu!\")\nelse:\n    print(\"Level belum cukup!\")",
         options: [
-          "kucing",
-          "kelinci",
-          "panda",
-          "Error karena angka 1 salah"
+          "Dapat Pedang Emas!",
+          "Dapat Pedang Kayu!",
+          "Level belum cukup!",
+          "Tidak mencetak apapun"
         ],
-        answer: 1,
-        explanation: "hewan[0] adalah 'kucing', hewan[1] adalah 'kelinci', dan hewan[2] adalah 'panda'. Maka outputnya adalah 'kelinci'."
+        answer: 0,
+        explanation: "Kondisi level >= 5 terpenuhi (5 >= 5 True). Kemudian kondisi bersarang diuji: koin >= 100 juga terpenuhi (120 >= 100 True). Maka yang dicetak adalah 'Dapat Pedang Emas!'."
       },
-      // 3. Teori - Dictionary
       {
         id: 3,
-        type: "teori",
-        topic: "Dictionary",
-        question: "Data dalam Dictionary di Python tersusun dalam bentuk pasangan apa?",
+        type: "praktik",
+        topic: "Nested If",
+        question: "Apakah output yang muncul di layar saat kode pengecekan bermain sepak bola ini dijalankan?",
+        code: "cuaca = \"cerah\"\npunya_sepatu = False\n\nif cuaca == \"cerah\":\n    if punya_sepatu == True:\n        print(\"Ayo main sepak bola!\")\n    else:\n        print(\"Cari sepatu dulu yuk!\")\nelse:\n    print(\"Main game di rumah aja.\")",
         options: [
-          "Baris dan Kolom",
-          "Kunci (Key) dan Nilai (Value)",
-          "Pertanyaan dan Solusi",
-          "Huruf dan Angka saja"
+          "Ayo main sepak bola!",
+          "Cari sepatu dulu yuk!",
+          "Main game di rumah aja.",
+          "Error karena False tidak boleh untuk if"
         ],
         answer: 1,
-        explanation: "Dictionary menggunakan format pasangan key: value di dalam kurung kurawal {}, contoh: {'nama': 'Roni', 'umur': 12}."
+        explanation: "Kondisi cuaca == 'cerah' bernilai True, sehingga masuk ke dalam. Namun kondisi punya_sepatu == True bernilai False, sehingga blok else bagian dalam dijalankan ('Cari sepatu dulu yuk!')."
       },
-      // 4. Praktik - Dictionary
       {
         id: 4,
         type: "praktik",
-        topic: "Dictionary",
-        question: "Bagaimana cara yang benar untuk memanggil skor pemain dari dictionary di bawah ini?",
-        code: "player = {\"nama\": \"Budi\", \"skor\": 100}",
+        topic: "Nested If",
+        question: "Berapakah status kelulusan siswa yang dicetak pada baris terakhir program?",
+        code: "nilai = 80\nhadir_penuh = True\n\nstatus = \"Belum Lulus\"\nif nilai >= 75:\n    if hadir_penuh:\n        status = \"Lulus Istimewa!\"\n    else:\n        status = \"Lulus Biasa\"\n\nprint(status)",
         options: [
-          "player.skor()",
-          "player[1]",
-          "player[\"skor\"]",
-          "print(player.100)"
+          "Belum Lulus",
+          "Lulus Biasa",
+          "Lulus Istimewa!",
+          "Error sintaks"
         ],
         answer: 2,
-        explanation: "Untuk mengambil isi dictionary, kita panggil nama kuncinya (key) di dalam kurung siku: player[\"skor\"]."
+        explanation: "Karena nilai (80) >= 75 adalah True dan hadir_penuh bernilai True, variabel status diperbarui menjadi 'Lulus Istimewa!'."
       },
-      // 5. Teori - Percabangan If
+
+      // === MATERI 2: NESTED LOOP ===
       {
         id: 5,
         type: "teori",
-        topic: "If Conditional",
-        question: "Jika kondisi pertama pada 'if' tidak terpenuhi dan kita ingin mengetes kondisi alternatif berikutnya, kata kunci apa yang digunakan?",
+        topic: "Nested Loop",
+        question: "Jika sebuah Nested Loop memiliki loop luar yang berputar 3 kali, dan loop dalam berputar 4 kali untuk setiap putaran luar, berapa total kali blok di loop terdalam dijalankan?",
         options: [
-          "else if",
-          "elif",
-          "then",
-          "repeat"
+          "7 kali (3 + 4)",
+          "12 kali (3 × 4)",
+          "4 kali saja",
+          "1 kali saja"
         ],
         answer: 1,
-        explanation: "Di Python kita menggunakan kata kunci 'elif' (singkatan dari else if)."
+        explanation: "Pada nested loop, loop bagian dalam akan berputar penuh untuk setiap 1 kali putaran loop luar. Jadi total perulangan adalah 3 × 4 = 12 kali."
       },
-      // 6. Praktik - Percabangan If
       {
         id: 6,
         type: "praktik",
-        topic: "If Conditional",
-        question: "Apakah output dari baris kode program di bawah ini?",
-        code: "nilai = 85\nif nilai >= 90:\n    print(\"Luar Biasa!\")\nelif nilai >= 75:\n    print(\"Hebat!\")\nelse:\n    print(\"Semangat Belajar!\")",
+        topic: "Nested Loop",
+        question: "Berapakah nilai akhir variabel 'total' yang dicetak ke layar setelah perulangan selesai?",
+        code: "total = 0\nfor baris in range(2):\n    for kolom in range(3):\n        total = total + 1\n\nprint(total)",
         options: [
-          "Luar Biasa!",
-          "Hebat!",
-          "Semangat Belajar!",
-          "Tidak ada tulisan yang keluar"
+          "2",
+          "3",
+          "5",
+          "6"
         ],
-        answer: 1,
-        explanation: "Karena nilai = 85, kondisi pertama (>= 90) salah, lalu kondisi kedua (nilai >= 75) benar. Maka mencetak 'Hebat!'."
+        answer: 3,
+        explanation: "Loop luar berjalan 2 kali (baris = 0, 1), dan setiap kali berjalan, loop dalam berputar 3 kali (kolom = 0, 1, 2). Total penambahan nilai adalah 2 × 3 = 6."
       },
-      // 7. Teori - Loop
       {
         id: 7,
-        type: "teori",
-        topic: "Loop",
-        question: "Jenis perulangan yang paling tepat digunakan ketika kita SUDAH TAHU jumlah pasti pengulangan yang diinginkan adalah...",
+        type: "praktik",
+        topic: "Nested Loop",
+        question: "Perhatikan kode pembuatan pola karakter bintang di bawah ini. Apakah hasil cetakannya di layar?",
+        code: "for i in range(2):\n    hasil = \"\"\n    for j in range(3):\n        hasil = hasil + \"★\"\n    print(hasil)",
         options: [
-          "while loop",
-          "for loop",
-          "infinite loop",
-          "break loop"
+          "Dua baris yang masing-masing berisi 3 bintang (★★★)",
+          "Tiga baris yang masing-masing berisi 2 bintang (★★)",
+          "Satu baris berisi 6 bintang (★★★★★★)",
+          "Hanya mencetak satu bintang saja (★)"
         ],
-        answer: 1,
-        explanation: "'for loop' paling cocok untuk mengulang item dalam rentang/urutan yang sudah diketahui (misalnya for i in range(5))."
+        answer: 0,
+        explanation: "Loop luar (range(2)) mengulang 2 baris. Di setiap baris, loop dalam menyusun 3 bintang (range(3)) lalu di-print. Hasilnya adalah 2 baris yang masing-masing berisi ★★★."
       },
-      // 8. Praktik - Loop
       {
         id: 8,
         type: "praktik",
-        topic: "Loop",
-        question: "Berapakah angka akhir dari variabel 'total' yang dicetak ke layar?",
-        code: "total = 0\nfor i in range(3):\n    total = total + 2\n\nprint(total)",
+        topic: "Nested Loop",
+        question: "Berapa banyak kombinasi warna dan benda yang berhasil ditambahkan ke dalam list 'kombinasi'?",
+        code: "warna = [\"merah\", \"biru\"]\nbenda = [\"topi\", \"buku\"]\n\nkombinasi = []\nfor w in warna:\n    for b in benda:\n        kombinasi.append(w + \" \" + b)\n\nprint(len(kombinasi))",
         options: [
           "2",
           "4",
           "6",
-          "8"
+          "0"
         ],
-        answer: 2,
-        explanation: "range(3) mengulang kode sebanyak 3 kali (i = 0, 1, 2). Nilai total bertambah 2 sebanyak 3 kali: 0 + 2 + 2 + 2 = 6."
+        answer: 1,
+        explanation: "Ada 2 pilihan warna dan 2 pilihan benda. Nested loop mengombinasikan semuanya: 'merah topi', 'merah buku', 'biru topi', 'biru buku' (total 4 item)."
       },
-      // 9. Teori - Function
+
+      // === MATERI 3: LIST OF DICTIONARY ===
       {
         id: 9,
         type: "teori",
-        topic: "Function",
-        question: "Kata kunci apa yang digunakan untuk membuat (mendefinisikan) fungsi baru buatan kita sendiri di Python?",
+        topic: "List of Dictionary",
+        question: "Mengapa kita sering menggabungkan List dan Dictionary menjadi 'List of Dictionary' dalam pemrograman aplikasi atau game?",
         options: [
-          "func",
-          "function",
-          "def",
-          "make"
+          "Hanya agar program berjalan lebih cepat tanpa memori",
+          "Untuk menyimpan sekumpulan data objek bertipe sama yang rapi (seperti daftar banyak pemain atau barang toko)",
+          "Karena Dictionary biasa tidak bisa dibaca oleh Python",
+          "Supaya variabel otomatis tersimpan ke internet"
         ],
-        answer: 2,
-        explanation: "Python menggunakan kata kunci 'def' (kependekan dari define) saat membuat sebuah fungsi, contohnya: def sapa():"
+        answer: 1,
+        explanation: "List of Dictionary sangat ideal untuk mengelola kumpulan objek/entitas, di mana setiap elemen list adalah dictionary dengan kunci yang seragam (misal: 'nama', 'level', 'skor')."
       },
-      // 10. Praktik - Function
       {
         id: 10,
         type: "praktik",
-        topic: "Function",
-        question: "Perhatikan fungsi berikut. Apakah hasil output saat kode dijalankan?",
-        code: "def tambah_lima(angka):\n    return angka + 5\n\nhasil = tambah_lima(10)\nprint(hasil)",
+        topic: "List of Dictionary",
+        question: "Perhatikan daftar pemain game di bawah ini. Siapakah nama pemain yang akan dicetak di layar?",
+        code: "pemain = [\n    {\"nama\": \"Zaki\", \"skor\": 150},\n    {\"nama\": \"Clara\", \"skor\": 230},\n    {\"nama\": \"Dina\", \"skor\": 90}\n]\n\nprint(pemain[1][\"nama\"])",
         options: [
-          "5",
-          "10",
-          "15",
-          "angka + 5"
-        ],
-        answer: 2,
-        explanation: "Fungsi menerima angka 10, lalu mengembalikan 10 + 5 yaitu 15 ke dalam variabel hasil."
-      },
-      // 11. Teori - Variabel Global & Local
-      {
-        id: 11,
-        type: "teori",
-        topic: "Variabel Local & Global",
-        question: "Apa arti dari variabel 'Lokal' di dalam bahasa Python?",
-        options: [
-          "Variabel yang bisa diakses di seluruh baris program",
-          "Variabel yang hanya hidup dan dikenal di dalam fungsi tempat ia dibuat",
-          "Variabel yang tidak mempunyai nilai",
-          "Variabel yang namanya tidak boleh disingkat"
+          "Zaki",
+          "Clara",
+          "Dina",
+          "230"
         ],
         answer: 1,
-        explanation: "Variabel lokal dibuat di dalam fungsi dan hanya dapat digunakan di dalam fungsi itu saja. Kode di luar fungsi tidak mengenalnya."
+        explanation: "pemain[1] mengambil dictionary indeks ke-1 yaitu {'nama': 'Clara', 'skor': 230}. Kemudian ['nama'] mengambil nilainya, yaitu 'Clara'."
       },
-      // 12. Teori - Variabel Global & Local
+      {
+        id: 11,
+        type: "praktik",
+        topic: "List of Dictionary",
+        question: "Berapakah total harga belanjaan yang dihitung oleh perulangan for di bawah ini?",
+        code: "keranjang = [\n    {\"item\": \"apel\", \"harga\": 5000},\n    {\"item\": \"roti\", \"harga\": 7000}\n]\n\ntotal = 0\nfor barang in keranjang:\n    total = total + barang[\"harga\"]\n\nprint(total)",
+        options: [
+          "5000",
+          "7000",
+          "12000",
+          "Error karena harga ada di dalam teks"
+        ],
+        answer: 2,
+        explanation: "Loop mengambil setiap item dictionary: pertama menambah 5000, lalu kedua menambah 7000. Total akhir adalah 5000 + 7000 = 12000."
+      },
       {
         id: 12,
-        type: "teori",
-        topic: "Variabel Local & Global",
-        question: "Kata kunci apa yang harus kita tuliskan di dalam fungsi jika kita ingin MENGUBAH isi dari variabel global yang ada di luar fungsi?",
+        type: "praktik",
+        topic: "List of Dictionary",
+        question: "Setelah baris kode berikut dijalankan, berapa jumlah total monster di dalam list?",
+        code: "monster = [\n    {\"nama\": \"Slime\", \"hp\": 20}\n]\n\nmonster.append({\"nama\": \"Dragon\", \"hp\": 100})\nprint(len(monster))",
         options: [
-          "global",
-          "outer",
-          "super",
-          "public"
+          "1",
+          "2",
+          "20",
+          "120"
         ],
-        answer: 0,
-        explanation: "Dengan menulis 'global nama_variabel' di dalam fungsi, Python tahu kita berniat mengubah variabel global di luar."
+        answer: 1,
+        explanation: "Awalnya list monster memiliki 1 item ({'nama': 'Slime'}). Perintah .append() menambahkan 1 dictionary monster baru. Sehingga len(monster) bernilai 2."
       },
-      // 13. Teori - String Manipulation
+
+      // === MATERI 4: FILE HANDLING ===
       {
         id: 13,
         type: "teori",
-        topic: "String Manipulation",
-        question: "Method bawaan Python apa yang digunakan untuk mengubah teks string menjadi HURUF KAPITAL SEMUA?",
+        topic: "File Handling",
+        question: "Mode akses apa yang digunakan pada fungsi open('data.txt', '...') jika kita ingin MENULIS dari awal dan MENGHAPUS isi lama file jika sudah ada?",
         options: [
-          ".besar()",
-          ".capitalize()",
-          ".upper()",
-          ".toCaps()"
+          "\"r\" (read mode)",
+          "\"w\" (write mode)",
+          "\"a\" (append mode)",
+          "\"x\" (exclusive mode)"
         ],
-        answer: 2,
-        explanation: "Method .upper() mengubah seluruh huruf menjadi kapital. Sedangkan .lower() mengubahnya menjadi huruf kecil."
+        answer: 1,
+        explanation: "Mode 'w' (write) membuka file untuk menulis dan akan mengosongkan (menimpa) isi file lama jika file tersebut sudah ada."
       },
-      // 14. Praktik - String Manipulation
       {
         id: 14,
         type: "praktik",
-        topic: "String Manipulation",
-        question: "Perhatikan kode berikut. Berapakah panjang karakter yang dihitung oleh fungsi len()?",
-        code: "teks = \"KodingSeru\"\nprint(len(teks))",
+        topic: "File Handling",
+        question: "Jika file 'pesan.txt' berisi tulisan 'Halo Koding!', apakah output yang tampil saat baris kode ini dieksekusi?",
+        code: "# File 'pesan.txt' sudah ada di komputer\nwith open(\"pesan.txt\", \"r\") as file:\n    isi = file.read()\n\nprint(isi)",
         options: [
-          "8",
-          "9",
-          "10",
-          "11"
+          "Halo Koding!",
+          "pesan.txt",
+          "None",
+          "Error karena tidak memakai file.close()"
         ],
-        answer: 2,
-        explanation: "Kata 'KodingSeru' terdiri dari 10 karakter huruf: K-o-d-i-n-g-S-e-r-u. Jadi len(teks) bernilai 10."
+        answer: 0,
+        explanation: "Blok 'with open(..., \"r\")' membaca seluruh teks file menggunakan file.read() dan otomatis menutup file setelah selesai. Maka isi yang dicetak adalah 'Halo Koding!'."
       },
-      // 15. Praktik - String Manipulation & Slicing
       {
         id: 15,
         type: "praktik",
-        topic: "String Manipulation",
-        question: "Apa hasil potongan teks yang dicetak dari operasi slicing berikut?",
-        code: "kata = \"PYTHON\"\n# Mengambil dari indeks 0 hingga sebelum 2\nprint(kata[0:2])",
+        topic: "File Handling",
+        question: "Jika file 'skor.txt' awalnya berisi angka '100', apa yang terjadi setelah kode dengan mode 'a' berikut dijalankan?",
+        code: "with open(\"skor.txt\", \"a\") as file:\n    file.write(\"200\")",
         options: [
-          "PY",
-          "PYT",
-          "P",
-          "PYTHON"
+          "Angka 100 terhapus dan digantikan seluruhnya oleh 200",
+          "Teks '200' ditambahkan di akhir file tanpa menghapus teks '100'",
+          "File skor.txt akan otomatis terhapus dari komputer",
+          "Program error karena angka tidak boleh dimasukkan dengan write()"
         ],
-        answer: 0,
-        explanation: "kata[0:2] mengambil karakter dari indeks 0 sampai sebelum indeks 2 (yaitu indeks 0 'P' dan 1 'Y'). Hasilnya 'PY'."
+        answer: 1,
+        explanation: "Mode 'a' adalah singkatan dari Append (menyambung/menambahkan). Mode ini tidak menghapus data yang lama, melainkan menyisipkan teks baru di akhir file."
+      },
+      {
+        id: 16,
+        type: "praktik",
+        topic: "File Handling",
+        question: "Jika file 'hewan.txt' berisi 3 baris nama hewan (kucing, anjing, kelinci), berapakah angka yang dihasilkan oleh fungsi len(baris)?",
+        code: "with open(\"hewan.txt\", \"r\") as f:\n    baris = f.readlines()\n\nprint(len(baris))",
+        options: [
+          "1",
+          "2",
+          "3",
+          "Jumlah huruf dari semua kata"
+        ],
+        answer: 2,
+        explanation: "Method .readlines() membaca seluruh isi file dan mengubahnya menjadi sebuah List yang berisi baris-baris teks. Karena ada 3 baris, panjang list len(baris) adalah 3."
       }
     ];
 
@@ -620,9 +622,9 @@
     const TOTAL_QUIZ_TIME_SECONDS = 20 * 60; // 20 Menit = 1200 Detik
     let remainingTimeSeconds = TOTAL_QUIZ_TIME_SECONDS;
     let timerInterval = null;
-    const STORAGE_KEY = "python_exam_record_kids_v1";
+    const STORAGE_KEY = "python_exam_record_level2_v1";
 
-    // Inisialisasi Elemen DOM
+    // Elemen DOM
     const welcomeScreen = document.getElementById("welcomeScreen");
     const quizScreen = document.getElementById("quizScreen");
     const resultScreen = document.getElementById("resultScreen");
@@ -653,7 +655,7 @@
       }, 2500);
     }
 
-    // Blokir klik kanan / context menu
+    // Blokir klik kanan
     document.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       showCopyBlockedNotice();
@@ -661,7 +663,6 @@
 
     // Blokir shortcut Copy, Cut, Inspect Element
     document.addEventListener("keydown", (e) => {
-      // Ctrl+C, Ctrl+X, Ctrl+U, Ctrl+Shift+I, F12, Cmd+C (Mac)
       if (
         (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.key === 'u' || e.key === 'U' || e.key === 'x' || e.key === 'X')) ||
         (e.metaKey && (e.key === 'c' || e.key === 'C' || e.key === 'x' || e.key === 'X')) ||
@@ -673,7 +674,6 @@
       }
     });
 
-    // Blokir event copy bawaan
     document.addEventListener("copy", (e) => {
       e.preventDefault();
       showCopyBlockedNotice();
@@ -746,7 +746,6 @@
       const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
       timerText.textContent = formatted;
 
-      // Peringatan visual jika waktu di bawah 3 menit
       if (remainingTimeSeconds <= 180) {
         timerBadge.className = "flex items-center space-x-1.5 px-3 py-1 rounded-xl bg-rose-50 text-rose-700 border border-rose-300 font-mono text-xs sm:text-sm font-bold animate-pulse";
       } else if (remainingTimeSeconds <= 300) {
@@ -755,7 +754,6 @@
     }
 
     function handleTimeExpired() {
-      // Munculkan notifikasi waktu habis
       timeUpToast.classList.remove("hidden");
       timeUpToast.classList.add("flex");
       
@@ -763,14 +761,12 @@
         timeUpToast.classList.add("hidden");
       }, 3500);
 
-      // Kumpulkan kuis otomatis tanpa konfirmasi lagi
       submitQuizFinal(true);
     }
 
     function startQuiz(event) {
       event.preventDefault();
       
-      // Proteksi ganda jika sudah pernah ujian
       if (localStorage.getItem(STORAGE_KEY)) {
         checkExistingSubmission();
         return;
@@ -800,7 +796,7 @@
         btn.id = `navPill-${idx}`;
         btn.className = `flex-shrink-0 w-7 h-7 rounded-lg text-xs font-bold transition flex items-center justify-center ${
           idx === currentQuestionIdx 
-            ? 'bg-sky-600 text-white shadow-sm ring-2 ring-sky-300' 
+            ? 'bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-300' 
             : userAnswers[idx] !== null 
               ? 'bg-slate-200 text-slate-800' 
               : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
@@ -819,7 +815,7 @@
         const isAnswered = userAnswers[idx] !== null;
 
         if (isCurrent) {
-          btn.className = "flex-shrink-0 w-7 h-7 rounded-lg text-xs font-bold transition flex items-center justify-center bg-sky-600 text-white shadow-sm ring-2 ring-sky-300";
+          btn.className = "flex-shrink-0 w-7 h-7 rounded-lg text-xs font-bold transition flex items-center justify-center bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-300";
         } else if (isAnswered) {
           btn.className = "flex-shrink-0 w-7 h-7 rounded-lg text-xs font-bold transition flex items-center justify-center bg-slate-200 text-slate-800";
         } else {
@@ -832,7 +828,6 @@
       currentQuestionIdx = index;
       const q = questions[index];
 
-      // Update counters & badge
       questionCounter.textContent = `Soal ${index + 1} dari ${questions.length}`;
       topicTag.textContent = `Topik: ${q.topic}`;
       
@@ -844,14 +839,12 @@
         categoryBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200";
       }
 
-      // Update bar progress
+      // Progres bar 16 soal
       const progressPercent = ((index + 1) / questions.length) * 100;
       quizProgressBar.style.width = `${progressPercent}%`;
 
-      // Render Soal
       questionText.textContent = q.question;
 
-      // Render Code jika ada
       if (q.code) {
         codeSnippet.textContent = q.code;
         codeSnippetBox.classList.remove("hidden");
@@ -859,7 +852,6 @@
         codeSnippetBox.classList.add("hidden");
       }
 
-      // Render Options
       optionsContainer.innerHTML = "";
       const optionLetters = ["A", "B", "C", "D"];
 
@@ -870,14 +862,14 @@
         optBtn.type = "button";
         optBtn.className = `w-full text-left p-3.5 sm:p-4 rounded-xl border transition-all duration-150 flex items-center space-x-3.5 active:scale-[0.99] ${
           isSelected 
-            ? 'border-sky-600 bg-sky-50/80 text-sky-900 shadow-sm ring-1 ring-sky-500' 
+            ? 'border-emerald-600 bg-emerald-50/80 text-emerald-900 shadow-sm ring-1 ring-emerald-500' 
             : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 text-slate-700'
         }`;
 
         optBtn.innerHTML = `
           <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs sm:text-sm flex-shrink-0 transition-colors ${
             isSelected 
-              ? 'bg-sky-600 text-white' 
+              ? 'bg-emerald-600 text-white' 
               : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
           }">
             ${optionLetters[optIdx]}
@@ -889,7 +881,6 @@
         optionsContainer.appendChild(optBtn);
       });
 
-      // Kontrol Tombol Bawah
       prevBtn.disabled = (index === 0);
 
       if (index === questions.length - 1) {
@@ -924,9 +915,9 @@
       const warningText = document.getElementById("unansweredWarning");
       
       if (unansweredCount > 0) {
-        warningText.innerHTML = `Masih ada <span class="font-bold text-rose-600">${unansweredCount} soal</span> yang belum kamu jawab. Tetap ingin mengumpulkan?`;
+        warningText.innerHTML = `Masih ada <span class="font-bold text-rose-600">${unansweredCount} soal</span> yang belum kamu jawab. Yakin ingin mengumpulkan sekarang?`;
       } else {
-        warningText.textContent = "Keren! Semua 15 soal sudah selesai kamu isi. Siap melihat nilaimu?";
+        warningText.textContent = "Luar biasa! Semua 16 soal sudah selesai kamu isi. Siap melihat nilaimu?";
       }
 
       confirmModal.classList.remove("hidden");
@@ -952,10 +943,8 @@
         }
       });
 
-      // Nilai dari skala 100
       const finalScoreVal = Math.round((correctCount / questions.length) * 100);
 
-      // Simpan status penyelesaian permanen di browser
       const quizRecord = {
         completed: true,
         studentName: studentName,
@@ -966,7 +955,6 @@
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(quizRecord));
 
-      // Sembunyikan kuis & tampilkan result
       quizScreen.classList.add("hidden");
       quizScreen.classList.remove("flex");
       resultScreen.classList.remove("hidden");
@@ -986,14 +974,14 @@
 
       if (finalScoreVal >= 85) {
         scoreEmoji.textContent = "🏆";
-        feedback.innerHTML = `<strong>Hebat Sekali, Calon Master Python!</strong> Logika koding dan pemahaman teorimu sudah sangat matang di usia 12 tahun. Pertahankan!`;
+        feedback.innerHTML = `<strong>Luar Biasa, Calon Software Engineer Handal!</strong> Pemahaman logikamu tentang Nested Loop, Dictionary, dan File Handling sangat tajam di usia 12 tahun!`;
         launchConfetti();
       } else if (finalScoreVal >= 65) {
         scoreEmoji.textContent = "⭐";
-        feedback.innerHTML = `<strong>Kerja Bagus!</strong> Kamu sudah memahami sebagian besar fundamental Python. Pelajari kembali poin-poin yang keliru pada pembahasan di bawah ya!`;
+        feedback.innerHTML = `<strong>Hebat! Kerja Bagus!</strong> Kamu sudah menguasai sebagian besar logika data Python. Pelajari kembali poin yang keliru di lembar pembahasan bawah ya!`;
       } else {
         scoreEmoji.textContent = "💪";
-        feedback.innerHTML = `<strong>Tetap Semangat!</strong> Belajar koding butuh latihan terus-menerus. Baca pembahasan di bawah untuk mengingat kembali materi yang sudah dipelajari.`;
+        feedback.innerHTML = `<strong>Tetap Semangat & Jangan Menyerah!</strong> Logika percabangan bersarang dan file handling memang butuh ketelitian. Yuk baca penjelasannya satu per satu di bawah.`;
       }
     }
 
@@ -1026,7 +1014,7 @@
 
         card.innerHTML = `
           <div class="flex items-start justify-between gap-2 mb-2">
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Soal ${idx + 1} • ${q.topic} (${q.type})</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Soal ${idx + 1} • ${q.topic} (${q.type === 'praktik' ? 'Praktik Kode' : 'Teori Konsep'})</span>
             ${userStatusHtml}
           </div>
           <p class="text-sm font-semibold text-slate-800 mb-1">${escapeHtml(q.question)}</p>
@@ -1057,7 +1045,7 @@
       canvas.height = window.innerHeight;
 
       const particles = [];
-      const colors = ["#0284c7", "#38bdf8", "#6366f1", "#10b981", "#f59e0b", "#ec4899"];
+      const colors = ["#10b981", "#059669", "#06b6d4", "#3b82f6", "#f59e0b", "#ec4899"];
 
       for (let i = 0; i < 90; i++) {
         particles.push({
